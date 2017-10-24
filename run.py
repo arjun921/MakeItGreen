@@ -29,8 +29,9 @@ def make_changes():
 	for x in range(temp):
 		writing.write(rand_string()+"\n")
 	writing.close()
-	os.system("git add .")
-	os.system("git commit -m "+rand_string())
+	os.system("cd "+working_dir+" && git add .")
+	os.system("cd "+working_dir+" && git commit -m "+rand_string())
+	d.close()
 
 
 def setup_():
@@ -53,25 +54,13 @@ def setup_():
 		path = d["path"]
 		working_dir = path+d["link"].split("/")[4]+"/"
 		if not os.path.exists(working_dir):
-			print("not exists")
 			os.system("cd "+path+" && git clone "+d["link"])
 	d.close()
 
 setup_()
 make_changes()
-# make_changes()
 
-# link = input("Enter link to private repo for writing to remote:\n")
+for x in range(s):
+	make_changes()
 
-# path = input("Enter path where you want to clone and make Misc Changes every time you run MakeItGreen:\n")
-
-# print(path)
-# os.system("cd "+path +" && git clone "+link)
-
-# os.system("git clone "+link)
-
-# for x in range(s):
-# 	make_changes()
-
-# os.system("git log")
-#print(s)
+os.system("cd "+working_dir+" && git push")
