@@ -3,6 +3,9 @@ import os
 import string
 import shelve
 from os.path import expanduser
+import argparse
+import shutil
+
 home = expanduser("~")
 configPath = home+"/.config/"+"MakeItGreen/"
 s = random.randrange(1,24)
@@ -16,11 +19,9 @@ def rand_string():
 
 def make_changes():
 	d = shelve.open(configPath+"Configuration")
-	if "path" not in d:
-		d["path"] = input("Enter path where you want to clone and make Misc Changes every time you run MakeItGreen:\n")
-	elif "path" in d:
+	if "path" in d:
 		path = d["path"]
-	working_dir = path+d["link"].split("/")[4]+"/"
+		working_dir = path+"/"+d["link"].split("/")[4]+"/"
 	print(working_dir)
 	fname = rand_string()
 	writing = open(working_dir+fname,'w+')
@@ -39,6 +40,21 @@ def setup_():
 	if not os.path.exists(configPath):
 		os.mkdir(configPath)
 	d = shelve.open(configPath+"Configuration")
+	parser = argparse.ArgumentParser()
+	parser.add_argument('--setup', action='store',
+	                    dest='SetupFlag',
+	                    help='Run --setup Y to re-setup',
+				type=bool, default=False)
+	results = parser.parse_args()
+	if results.SetupFlag:
+		if "path" in d and "link" in d:
+			path = d["path"]
+			working_dir = path+"/"+d["link"].split("/")[4]+"/"
+			if os.path.exists(working_dir):
+				shutil.rmtree(working_dir)
+			del d["path"]
+			del d["link"]
+
 	if "path" not in d:
 		d["path"] = input("Enter path where you want to clone and make Misc Changes every time you run MakeItGreen:\n")
 	if "link" not in d:
@@ -50,16 +66,17 @@ def setup_():
 			os.system("cd "+path+" && git clone "+d["link"])
 	d.close()
 
-setup_()
 
+setup_()
 
 for x in range(s):
 	make_changes()
 
+
 d = shelve.open(configPath+"Configuration")
 if "path" in d and "link" in d:
 	path = d["path"]
-	working_dir = path+d["link"].split("/")[4]+"/"
+	working_dir = path+"/"+d["link"].split("/")[4]+"/"
 	if not os.path.exists(working_dir):
 		os.system("cd "+path+" && git clone "+d["link"])
 d.close()
