@@ -4,7 +4,7 @@ import string
 import shelve
 from os.path import expanduser
 home = expanduser("~")
-
+configPath = home+"/.config/"+"MakeItGreen/"
 s = random.randrange(1,24)
 
 
@@ -15,8 +15,15 @@ def rand_string():
 	return rand
 
 def make_changes():
+	d = shelve.open(configPath+"Configuration")
+	if "path" not in d:
+		d["path"] = input("Enter path where you want to clone and make Misc Changes every time you run MakeItGreen:\n")
+	elif "path" in d:
+		path = d["path"]
+	working_dir = path+d["link"].split("/")[4]+"/"
+	print(working_dir)
 	fname = rand_string()
-	writing = open(path+fname,'w+')
+	writing = open(working_dir+fname,'w+')
 	temp = random.randrange(1,125)
 	print(temp)
 	for x in range(temp):
@@ -36,16 +43,16 @@ def setup_():
 	d = shelve.open(configPath+"Configuration")
 	if "path" not in d:
 		d["path"] = input("Enter path where you want to clone and make Misc Changes every time you run MakeItGreen:\n")
-	elif "path" in d:
-		print(d["path"])
+	# elif "path" in d:
+		# print(d["path"])
 	if "link" not in d:
 		d["link"] = input("Enter link to private repo for writing to remote:\n")
-	elif "link" in d:
-		print(d["link"].split("/")[4])
+	# elif "link" in d:
+		# print(d["link"].split("/")[4])
 	d.close()
 
 setup_()
-
+make_changes()
 
 # link = input("Enter link to private repo for writing to remote:\n")
 
