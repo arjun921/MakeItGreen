@@ -6,7 +6,7 @@ from os.path import expanduser
 home = expanduser("~")
 configPath = home+"/.config/"+"MakeItGreen/"
 s = random.randrange(1,24)
-
+working_dir = ""
 
 
 def rand_string():
@@ -36,20 +36,13 @@ def make_changes():
 
 def setup_():
 	configPath = home+"/.config/"+"MakeItGreen/"
-	# os.system("cd "+"~/.config/ && pwd")
-	# print(configPath)
-	# os.system("")
 	if not os.path.exists(configPath):
 		os.mkdir(configPath)
 	d = shelve.open(configPath+"Configuration")
 	if "path" not in d:
 		d["path"] = input("Enter path where you want to clone and make Misc Changes every time you run MakeItGreen:\n")
-	# elif "path" in d:
-		# print(d["path"])
 	if "link" not in d:
 		d["link"] = input("Enter link to private repo for writing to remote:\n")
-	# elif "link" in d:
-		# print(d["link"].split("/")[4])
 	if "path" in d and "link" in d:
 		path = d["path"]
 		working_dir = path+d["link"].split("/")[4]+"/"
@@ -58,9 +51,17 @@ def setup_():
 	d.close()
 
 setup_()
-make_changes()
+
 
 for x in range(s):
 	make_changes()
 
+d = shelve.open(configPath+"Configuration")
+if "path" in d and "link" in d:
+	path = d["path"]
+	working_dir = path+d["link"].split("/")[4]+"/"
+	if not os.path.exists(working_dir):
+		os.system("cd "+path+" && git clone "+d["link"])
+d.close()
+print("current path:"+working_dir)
 os.system("cd "+working_dir+" && git push")
