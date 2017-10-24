@@ -40,12 +40,6 @@ def setup_():
 	if not os.path.exists(configPath):
 		os.mkdir(configPath)
 	d = shelve.open(configPath+"Configuration")
-	parser = argparse.ArgumentParser()
-	parser.add_argument('--setup', action='store',
-	                    dest='SetupFlag',
-	                    help='Run --setup Y to re-setup',
-				type=bool, default=False)
-	results = parser.parse_args()
 	if results.SetupFlag:
 		if "path" in d and "link" in d:
 			path = d["path"]
@@ -67,7 +61,14 @@ def setup_():
 	d.close()
 
 
-setup_()
+parser = argparse.ArgumentParser()
+parser.add_argument('--setup', action='store',
+					dest='SetupFlag',
+					help='Run --setup Y to re-setup',
+			type=bool, default=False)
+results = parser.parse_args()
+if results.SetupFlag:
+	setup_()
 
 for x in range(s):
 	make_changes()
