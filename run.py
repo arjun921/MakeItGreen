@@ -58,6 +58,7 @@ def setup_():
 	d.close()
 
 setup_()
+make_changes()
 # make_changes()
 
 # link = input("Enter link to private repo for writing to remote:\n")
