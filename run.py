@@ -49,10 +49,16 @@ def setup_():
 		d["link"] = input("Enter link to private repo for writing to remote:\n")
 	# elif "link" in d:
 		# print(d["link"].split("/")[4])
+	if "path" in d and "link" in d:
+		path = d["path"]
+		working_dir = path+d["link"].split("/")[4]+"/"
+		if not os.path.exists(working_dir):
+			print("not exists")
+			os.system("cd "+path+" && git clone "+d["link"])
 	d.close()
 
 setup_()
-make_changes()
+# make_changes()
 
 # link = input("Enter link to private repo for writing to remote:\n")
 
