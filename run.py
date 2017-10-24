@@ -1,6 +1,10 @@
 import random
 import os
 import string
+import shelve
+from os.path import expanduser
+home = expanduser("~")
+
 s = random.randrange(1,24)
 
 
@@ -21,14 +25,39 @@ def make_changes():
 	os.system("git add .")
 	os.system("git commit -m "+rand_string())
 
-link = input("Enter link to private repo for writing to remote")
 
-path = input("Enter path where you want to clone and make Misc Changes every time you run MakeItGreen")
+def setup_():
+	configPath = home+"/.config/"+"MakeItGreen/"
+	# os.system("cd "+"~/.config/ && pwd")
+	# print(configPath)
+	# os.system("")
+	if not os.path.exists(configPath):
+		os.mkdir(configPath)
+	d = shelve.open(configPath+"Configuration")
+	if "path" not in d:
+		d["path"] = input("Enter path where you want to clone and make Misc Changes every time you run MakeItGreen:\n")
+	elif "path" in d:
+		print(d["path"])
+	if "link" not in d:
+		d["link"] = input("Enter link to private repo for writing to remote:\n")
+	elif "link" in d:
+		print(d["link"].split("/")[4])
+	d.close()
 
-os.system("git clone "+link+" "+path)
+setup_()
 
-for x in range(s):
-	make_changes()
+
+# link = input("Enter link to private repo for writing to remote:\n")
+
+# path = input("Enter path where you want to clone and make Misc Changes every time you run MakeItGreen:\n")
+
+# print(path)
+# os.system("cd "+path +" && git clone "+link)
+
+# os.system("git clone "+link)
+
+# for x in range(s):
+# 	make_changes()
 
 # os.system("git log")
 #print(s)
