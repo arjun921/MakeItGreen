@@ -1,5 +1,6 @@
 #!/usr/bin/python
 import random
+import subprocess
 import os
 import string
 import shelve
@@ -18,21 +19,35 @@ def rand_string():
 	rand = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(tempr))
 	return rand
 
-def make_changes():
+def folder():
 	d = shelve.open(configPath+"Configuration")
 	if "path" in d:
 		path = d["path"]
 		working_dir = path+"/"+d["link"].split("/")[4]+"/"
-	print(working_dir)
+	mkd = working_dir+''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(8))
+	os.mkdir(mkd)
+	ls = os.listdir(working_dir)
+	for x in ls:
+		if x not in ['.DS_Store', 'README.md', '.git']:
+			shutil.move(working_dir+x,mkd+"/")
+
+
+def make_changes():
+	d = shelve.open(configPath+"Configuration")
+
+
+	if "path" in d:
+		path = d["path"]
+		working_dir = path+"/"+d["link"].split("/")[4]+"/"
 	fname = rand_string()
 	writing = open(working_dir+fname,'w+')
 	temp = random.randrange(1,125)
-	print(temp)
 	for x in range(temp):
 		writing.write(rand_string()+"\n")
 	writing.close()
 	os.system("cd "+working_dir+" && git add .")
 	os.system("cd "+working_dir+" && git commit -m "+rand_string())
+
 	d.close()
 
 
@@ -71,8 +86,29 @@ results = parser.parse_args()
 if results.SetupFlag:
 	setup_()
 
+folder()
 for x in range(s):
 	make_changes()
+
+
+d = shelve.open(configPath+"Configuration")
+if "path" in d:
+	path = d["path"]
+	working_dir = path+"/"+d["link"].split("/")[4]+"/"
+d.close()
+
+dusage = subprocess.check_output(['du','-sh', working_dir]).split()[0].decode('utf-8')
+print(working_dir)
+print(float(dusage[:-1]))
+if float(dusage[:-1])>10:
+	ls = os.listdir(working_dir)
+	for x in ls:
+		if x not in ['.DS_Store', 'README.md', '.git']:
+			try:
+				os.remove(working_dir+x)
+			except Exception as e:
+				shutil.rmtree(working_dir+x)
+
 
 
 d = shelve.open(configPath+"Configuration")
@@ -82,5 +118,4 @@ if "path" in d and "link" in d:
 	if not os.path.exists(working_dir):
 		os.system("cd "+path+" && git clone "+d["link"])
 d.close()
-print("current path:"+working_dir)
 os.system("cd "+working_dir+" && git push")
