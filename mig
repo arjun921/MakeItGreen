@@ -10,7 +10,7 @@ import shutil
 
 home = expanduser("~")
 configPath = home+"/.config/"+"MakeItGreen/"
-s = random.randrange(1,24)
+s = random.randrange(1,10)
 working_dir = ""
 
 
