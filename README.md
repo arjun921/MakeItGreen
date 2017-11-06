@@ -27,24 +27,38 @@ BEWARE: This will delete your current repository folder from local system and re
 
 If running `$ mig` does nothing or if `no module named mig found` is shown, follow instructions below:
 
-`$ pip uninstall makeitgreen`
+```
+$ pip uninstall makeitgreen
+$ sudo pip install makeitgreen
+```
 
-`$ sudo pip install makeitgreen`
+
 
 ##### GDBM No such File or directory 
 
 If you come across the following error:
 
-`_gdbm.error: [Errono 2] No such file or Directory`
+```
+_gdbm.error: [Errono 2] No such file or Directory
+```
 
-Then probably you're not having access to the folder where shelve is being stored. Use
+then probably you're not having access to the folder where shelve is being stored. Run
 
-`$ sudo mig`
+```
+$ sudo mig
+```
+
+
 
 ##### mig —setup fails
 
-Run `$ sudo mig --setup Y`
+```
+$ sudo mig --setup Y
+```
+
+
 
 ##### -bash: $: command not found
 
 Run all commands without the `$` sign🙄🙄🙄
+
