@@ -48,7 +48,3 @@ Run `$ sudo mig --setup Y`
 ##### -bash: $: command not found
 
 Run all commands without the `$` sign🙄🙄🙄
-
-```
-
-```
