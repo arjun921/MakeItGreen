@@ -1,33 +1,27 @@
 # MakeItGreen
 Simple PyPi Package that adds contributions to your GitHub repository
 
-## How to use?
+### How to use?
 
-Use Sudo to set path to executable systemwide
+```
+$ pip install makeitgreen
+$ mig
+Enter path where you want to clone and make Misc Changes every time you run MakeItGreen:
+/Users/arjun921/working_directory/ #Change path to your own system path!
+Enter link to private repo for writing to remote:
+https://github.com/arjun921/migPrivate #Change link to your own repository!
+```
+##### Start All Over again
 
-`$ pip install makeitgreen` 
-
-`$ mig`
-
-## When it shows
-
-`Enter path where you want to clone and make Misc Changes every time you run MakeItGreen:`
-
-Enter the path to folder where you want the repo to be cloned. Repo will be cloned by repository name under the path specified. 
-
-`Enter link to private repo for writing to remote:`
-
-Enter the link to a private repository you have write access to.
-
-## Start All Over again
-
-To setup MakeItGreen from the beginning, 
-
- `$ mig --setup Y`
+ ```
+$ mig --setup Y
+ ```
 
 BEWARE: This will delete your current repository folder from local system and remove all configuration from memory.
 
-## Troubleshooting
+
+
+#### Troubleshooting/FAQ
 
 ##### Mig not found
 
@@ -55,3 +49,6 @@ Run `$ sudo mig --setup Y`
 
 Run all commands without the `$` sign🙄🙄🙄
 
+```
+
+```
