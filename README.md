@@ -1,5 +1,5 @@
 # MakeItGreen
-Simple PyPi Package that adds contributions to your GitHub repository
+Simple PyPi Package that adds contributions to your GitHub repository.
 
 ### How to use?
 
